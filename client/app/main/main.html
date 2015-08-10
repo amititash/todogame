@@ -1,0 +1,51 @@
+<div ng-include="'components/navbar/navbar.html'"></div>
+
+<header class="hero-unit" id="banner">
+  <div class="container">
+    <h1>'Allo, 'Allo!  {{ getCurrentUser().name }}</h1>
+    <p class="lead">Kick-start your next web app with Angular Fullstack</p>
+    <img src="assets/images/yeoman.png" alt="I'm Yeoman">
+  </div>
+</header>
+
+<div class="container" ng-if="getCurrentUser().name">
+   <!-- Todos input -->
+  <form role="form" ng-submit="addTodo()">
+    <div class="row">
+      <div class="input-group">
+        <input type="text" ng-model="$parent.todo" placeholder="What needs to be done?" class="form-control">
+        <input type="text" ng-model="$parent.todoowner" placeholder="By whom ?" class="form-control">
+        <span class="input-group-btn">
+          <input type="submit" class="btn btn-primary" value="Add">
+        </span>
+      </div>
+    </div>
+  </form>
+  
+  
+  <span class="input-group-btn">
+           <button class="btn" ng-click="loadTodos()" >Load To Dos</button>
+ </span>
+        
+  <!-- todo list -->
+  
+	<h2>My todos</h2>
+<div class="row" ui-sortable ng-model="$parent.todos">
+  <p class="input-group" ng-repeat="todo in todos track by $index" style="padding:5px 10px; cursor: move;">
+  
+    	<input type="text" ng-model="todo.todo" class="form-control">
+    	<input type="text" ng-model="todo.todoowner" class="form-control">
+    	<span class="input-group-btn">
+           <button class="btn btn-danger" ng-click="removeTodo($index)" aria-label="Remove">X</button>
+        </span>
+  </p>
+</div>
+</div>
+
+<footer class="footer">
+  <div class="container">
+      <p>Angular Fullstack v2.1.0 |
+        <a href="https://twitter.com/tyhenkel">@tyhenkel</a> |
+         <a href="https://github.com/DaftMonk/generator-angular-fullstack/issues?state=open">Issues</a></p>
+  </div>
+</footer>
