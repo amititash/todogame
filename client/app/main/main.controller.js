@@ -1,7 +1,26 @@
 'use strict';
 
 angular.module('mailtodoApp')
- .controller('MainCtrl', function ($scope, $http, Auth) {
+ .controller('MainCtrl', function ($scope, $http, Auth, Upload, angularFilepicker) {
+	 
+	 
+	angularFilepicker.setKey('AkWg3BOpTGqgn8rSKoGwAz');
+	
+	$scope.pickFile = pickFile;
+
+	function pickFile(){
+		angularFilepicker.pick(
+			{mimetype: 'image/*'},
+			onSuccess
+		);
+	}
+   
+   function onSuccess(Blob) {
+            console.log(Blob);
+            $scope.fileObj = Blob;
+        };
+        
+	
     $scope.awesomeThings = [];
 
     $scope.isAdmin = Auth.isAdmin;
@@ -38,7 +57,16 @@ angular.module('mailtodoApp')
 	  
 	  
 	  console.log(Auth.getCurrentUser().email);
-	  $http.post('/api/todos', { todoname: $scope.todo, todostatus: 0, todoowner: $scope.todoowner });
+	  if($scope.fileObj)
+	  {
+		  
+		  console.log("here...");
+		  $scope.upload();
+	  }
+	  else
+	  {
+	  	$http.post('/api/todos', { todoname: $scope.todo, todostatus: 0, todoowner: $scope.todoowner, todoatt: "" });
+	  }
 	  $scope.todo = "";
 	  $scope.todoowner = "";
 	  
@@ -71,5 +99,45 @@ angular.module('mailtodoApp')
 	};
 	
 	
+	$scope.upload = function ()
+	{
+		console.log($scope.fileObj);
+		
+        $http.post('/api/todos', { todoname: $scope.todo, todostatus: 0, todoowner: $scope.todoowner , todoatt: $scope.fileObj.url});
+		
+	}
+	// API Call for manual upload to disc below this ----
+	
+	/* 
+		do this only if you need instant upload
+		
+		$scope.$watch('file', function (file) {
+      $scope.upload($scope.file);
+    });
+    */
+    
+    /* optional: set default directive values */
+    //Upload.setDefaults( {ngf-keep:false ngf-accept:'image/*', ...} );
+   /**
+	   
+	  
+    $scope.upload = function (file) {
+        Upload.upload({
+            url: '/api/todos/todofile',
+            file: file
+        }).progress(function (evt) {
+           // var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
+            console.log('progress: going on ');
+        }).success(function (data, status, headers, config) {
+            console.log('file ' + config.file.name + 'uploaded. Response: ' + data);
+            $http.post('/api/todos', { todoname: $scope.todo, todostatus: 0, todoowner: $scope.todoowner , todoatt: config.file.name});
+            
+            
+        }).error(function (data, status, headers, config) {
+            console.log('error status: ' + status);
+        })
+    };
+    
+    */
 
 });

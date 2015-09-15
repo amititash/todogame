@@ -5,7 +5,10 @@ angular.module('mailtodoApp', [
   'ngResource',
   'ngSanitize',
   'ngRoute',
-  'ui.bootstrap'
+  'ui.bootstrap',
+  'ngFileUpload',
+  'angularFilepicker'
+  
 ])
   .config(function ($routeProvider, $locationProvider, $httpProvider) {
     $routeProvider

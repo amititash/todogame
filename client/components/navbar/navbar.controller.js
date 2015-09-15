@@ -5,6 +5,9 @@ angular.module('mailtodoApp')
     $scope.menu = [{
       'title': 'Home',
       'link': '/'
+    },{
+      'title': 'Explore',
+      'link': '/Explore'
     }];
 
     $scope.isCollapsed = true;

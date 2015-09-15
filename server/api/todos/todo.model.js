@@ -6,6 +6,7 @@ var mongoose = require('mongoose'),
 var ToDoSchema = new Schema({
   todoname: String,
   todoowner: String,
+  todoatt: String,
   todostatus: Boolean
 });
 
